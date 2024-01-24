@@ -151,7 +151,7 @@ def QR(r):
 #a=1
 #b=15
 #q=20
-print("!!!Atention!!! tout doit être en minuscule avec des '-', sans espaces et des apostrophes")
+print("!!!Atention!!! tout doit être en minuscule avec des espaces, des apostrophes et accents")
 print("Choisi sur quelle intervalle 'a' et 'b' tu veux être interrogé")
 # faire +1 apres le numero 20 à cause de la corse
 while a<1 or a>95 :
