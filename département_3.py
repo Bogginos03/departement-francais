@@ -1,4 +1,4 @@
-from random import randrange
+from random import randrange, randint
 
 departements = [
     {"numero": "01", "nom": "ain", "prefecture": "bourg en bresse", "region": "auvergne rhône alpes"},
@@ -22,7 +22,7 @@ departements = [
     {"numero": "19", "nom": "corrèze", "prefecture": "tulle", "region": "nouvelle aquitaine"},
 
     {"numero": "2A", "nom": "corse du sud", "prefecture": "ajaccio", "region": "corse"},
-    {"numero": "2B", "nom": "haute corse", "prefecture": "tulle", "region": "corse"},
+    {"numero": "2B", "nom": "haute corse", "prefecture": "bastia", "region": "corse"},
 
     {"numero": "21", "nom": "côte d'or", "prefecture": "dijon", "region": "bourgogne franche comté"},
     {"numero": "22", "nom": "côtes d'armor", "prefecture": "saint brieuc", "region": "bretagne"},
@@ -109,9 +109,14 @@ last=0          #ancien nb
 d=""            #rep departement
 r=""            #rep region
 p=""            #rep prefecture
+pt_d=0          #nb de bonnes réponses département
+pt_r=0          #nb de bonnes réponses région
+pt_p=0          #nb de bonnes réponses préfecture
 
 def BrepD(d):
+    global pt_d
     print('Bonne réponse')
+    pt_d += 1
     print('')
     print("Quelle est la préfecture de ",end='')
     return departements[last]["nom"]
@@ -123,23 +128,28 @@ def MrepD(d):
     return departements[last]["nom"]
 
 def QP(p):
+    global pt_p
     if p == departements[last]["prefecture"]:
         print('Bonne réponse')
+        pt_p += 1  
         print('')
-        print("Quelle est la région où se trouve ",end='')
-        return departements[last]["nom"]
-    else :
-        print("FAUX !!!!!!!! Il s'agit de ",departements[last]["prefecture"])
+        print("Quelle est la région où se trouve ", departements[last]["nom"])
+        return ''
+    else:
+        print("FAUX !!!!!!!! Il s'agit de ", departements[last]["prefecture"])
         print('')
-        print("Quelle est la région où se trouve ",end='')
-        return departements[last]["nom"]
+        print("Quelle est la région où se trouve ", end='')
+        print(departements[last]["nom"])
+        return ''
     
 def QR(r):
+    global pt_r
     if r == departements[last]["region"]:
         print('Bonne réponse')
+        pt_r += 1
         print('////////////////////////////////')
         print('')
-        return ' '
+        return ''
     else :
         print("FAUX !!!!!!!! Il s'agit de ",departements[last]["region"])
         print('////////////////////////////////')
@@ -153,21 +163,29 @@ def QR(r):
 #q=20
 print("!!!Attention!!! tout doit être en minuscule avec des espaces, des apostrophes et des accents")
 print("Sur quelle intervalle 'a' et 'b' veux-tu être interrogé")
-# faire +1 apres le numero 20 à cause de la corse
+
 while a<1 or a>95 :
-    a = int(input('a: '))
-    if a<1 or a>95 :
-        print('réponse non valable') 
+    a = int(input('a: '))        
+    if a<0 or a>95 :
+        print('réponse non valable')
+    
+    
 while b<a or b>96 :      
-    b = int(input('b: '))
+    b = int(input('b: '))  
     if b<a or b>96:
         print('réponse non valable')
+
+if a<20:
+    a -=1
+if b<20:
+    b -=1
 
 print("à combien de question souhaites-tu répondre")
 q = int(input('Nombres de questions: '))
 
 for i in range(q):
-    new = randrange(a,b,1)     #département choisi aléatoirement dans l'intervalle donnée
+    #new = randrange(a,b,1)
+    new = randint(a,b)              #département choisi aléatoirement dans l'intervalle donnée
     if new != last:
         last = new
 
@@ -187,3 +205,9 @@ for i in range(q):
             print(QP(p))
             r = input('réponse : ')
             print(QR(r))
+            
+
+print('Tu as obtenu :')
+print('\t',pt_d," sur ",q, " pour les départements")
+print('\t',pt_p," sur ",q, " pour les préfectures")
+print('\t',pt_r," sur ",q, " pour les régions")
